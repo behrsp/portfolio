@@ -246,6 +246,7 @@ const tabStyle = {
   fontWeight: '500',
   cursor: 'pointer',
   transition: 'all 0.2s ease',
+  color: '#fff',
 }
 
 const formStyle = {
