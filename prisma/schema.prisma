@@ -1,0 +1,75 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model Profile {
+  id          String   @id @default(cuid())
+  name        String
+  bio         String
+  image       String?
+  github      String?
+  linkedin    String?
+  email       String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+enum ProjectStatus {
+  ONGOING
+  FINISHED
+}
+
+model Project {
+  id          String        @id @default(cuid())
+  title       String
+  description String
+  videoUrl    String?
+  imageUrl    String?
+  status      ProjectStatus @default(ONGOING)
+  techStack   String[]
+  githubUrl   String?
+  liveUrl     String?
+  order       Int           @default(0)
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+}
+
+enum CourseStatus {
+  ONGOING
+  FINISHED
+}
+
+model Course {
+  id             String       @id @default(cuid())
+  title          String
+  platform       String
+  status         CourseStatus @default(ONGOING)
+  completionDate DateTime?
+  certificateUrl String?
+  createdAt      DateTime     @default(now())
+  updatedAt      DateTime     @updatedAt
+}
+
+model Certificate {
+  id        String   @id @default(cuid())
+  title     String
+  issuer    String
+  date      DateTime
+  link      String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Skill {
+  id          String   @id @default(cuid())
+  name        String
+  category    String   // e.g., "Manipulation Systems", "Languages", "Frameworks"
+  description String?
+  level       Int?     // 1-5 or similar
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
