@@ -84,9 +84,30 @@ export default function AdminPage() {
               <textarea name="bio" className="glass" style={{ ...inputStyle, height: '100px' }} defaultValue="Desenvolvedor Full Stack..." />
             </div>
             <div style={inputGroup}>
-              <label>URL da Foto (Avatar)</label>
-              <input name="image" type="text" className="glass" style={inputStyle} placeholder="https://..." />
-              <small style={{ color: 'hsl(var(--muted-foreground))' }}>Dica: Use um link do GitHub, Imgur ou similar.</small>
+              <label>Foto do Perfil (Upload do PC)</label>
+              <input 
+                type="file" 
+                accept="image/*" 
+                className="glass" 
+                style={inputStyle} 
+                onChange={async (e) => {
+                  const file = e.target.files?.[0]
+                  if (file) {
+                    const reader = new FileReader()
+                    reader.onloadend = () => {
+                      setProfile({ ...profile, image: reader.result as string })
+                    }
+                    reader.readAsDataURL(file)
+                  }
+                }}
+              />
+              <input type="hidden" name="image" value={profile.image || ''} />
+              {profile.image && (
+                <div style={{ marginTop: '1rem', width: '100px', height: '100px', borderRadius: '50%', overflow: 'hidden', border: '2px solid hsl(var(--primary))' }}>
+                  <img src={profile.image} alt="Preview" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                </div>
+              )}
+              <small style={{ color: 'hsl(var(--muted-foreground))' }}>A imagem será salva diretamente no banco de dados. Limite: 1MB.</small>
             </div>
             <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem' }}>
               <div style={inputGroup}>
