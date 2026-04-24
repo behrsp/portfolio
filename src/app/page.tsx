@@ -3,6 +3,7 @@ import Hero from '@/components/Hero'
 import Projects from '@/components/Projects'
 import Skills from '@/components/Skills'
 import Education from '@/components/Education'
+import Link from 'next/link'
 
 export const revalidate = 3600 // Revalidate every hour
 
@@ -65,6 +66,9 @@ export default async function Home() {
       <footer className="container" style={{ padding: '4rem 0', textAlign: 'center', color: 'hsl(var(--muted-foreground))', fontSize: '0.9rem' }}>
         <p>© {new Date().getFullYear()} behrsp. Todos os direitos reservados.</p>
         <p style={{ marginTop: '0.5rem' }}>Construído com Next.js, React e NeonDB</p>
+        <div style={{ marginTop: '2rem' }}>
+          <Link href="/admin" style={{ fontSize: '0.75rem', opacity: 0.5 }}>Administração</Link>
+        </div>
       </footer>
     </div>
   )
