@@ -138,12 +138,70 @@ export default function AdminPage() {
             </div>
             <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem' }}>
               <div style={inputGroup}>
-                <label>URL do Vídeo (mp4)</label>
-                <input name="videoUrl" type="text" className="glass" style={inputStyle} />
+                <label>Vídeo do Projeto (Upload mp4 ou URL)</label>
+                <div style={{ display: 'flex', gap: '0.5rem' }}>
+                  <input 
+                    type="file" 
+                    accept="video/mp4" 
+                    className="glass" 
+                    style={{ ...inputStyle, width: 'auto' }} 
+                    onChange={async (e) => {
+                      const file = e.target.files?.[0]
+                      if (file) {
+                        const reader = new FileReader()
+                        reader.onloadend = () => {
+                          const hiddenInput = e.target.parentElement?.parentElement?.querySelector('input[name="videoUrl"]') as HTMLInputElement
+                          if (hiddenInput) hiddenInput.value = reader.result as string
+                        }
+                        reader.readAsDataURL(file)
+                      }
+                    }}
+                  />
+                  <input 
+                    type="text" 
+                    className="glass" 
+                    style={inputStyle} 
+                    placeholder="Ou cole a URL..." 
+                    onChange={(e) => {
+                      const hiddenInput = e.target.parentElement?.parentElement?.querySelector('input[name="videoUrl"]') as HTMLInputElement
+                      if (hiddenInput) hiddenInput.value = e.target.value
+                    }}
+                  />
+                </div>
+                <input type="hidden" name="videoUrl" />
               </div>
               <div style={inputGroup}>
-                <label>URL da Imagem (Capa)</label>
-                <input name="imageUrl" type="text" className="glass" style={inputStyle} />
+                <label>Imagem de Capa (Upload ou URL)</label>
+                <div style={{ display: 'flex', gap: '0.5rem' }}>
+                  <input 
+                    type="file" 
+                    accept="image/*" 
+                    className="glass" 
+                    style={{ ...inputStyle, width: 'auto' }} 
+                    onChange={async (e) => {
+                      const file = e.target.files?.[0]
+                      if (file) {
+                        const reader = new FileReader()
+                        reader.onloadend = () => {
+                          const hiddenInput = e.target.parentElement?.parentElement?.querySelector('input[name="imageUrl"]') as HTMLInputElement
+                          if (hiddenInput) hiddenInput.value = reader.result as string
+                        }
+                        reader.readAsDataURL(file)
+                      }
+                    }}
+                  />
+                  <input 
+                    type="text" 
+                    className="glass" 
+                    style={inputStyle} 
+                    placeholder="Ou cole a URL..." 
+                    onChange={(e) => {
+                      const hiddenInput = e.target.parentElement?.parentElement?.querySelector('input[name="imageUrl"]') as HTMLInputElement
+                      if (hiddenInput) hiddenInput.value = e.target.value
+                    }}
+                  />
+                </div>
+                <input type="hidden" name="imageUrl" />
               </div>
             </div>
             <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem' }}>
