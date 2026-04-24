@@ -206,7 +206,14 @@ export default function AdminPage() {
               <button type="submit" className="glass" style={buttonStyle}>Adicionar Curso</button>
             </form>
 
-            <form onSubmit={(e) => { e.preventDefault(); addCertificate(Object.fromEntries(new FormData(e.currentTarget))); alert('Certificado adicionado!'); }} style={formStyle}>
+            <form onSubmit={async (e) => { 
+              e.preventDefault(); 
+              const formData = new FormData(e.currentTarget);
+              const data = Object.fromEntries(formData.entries());
+              await addCertificate(data); 
+              e.currentTarget.reset();
+              alert('Certificado adicionado!'); 
+            }} style={formStyle}>
               <h3>Adicionar Certificado</h3>
               <div style={inputGroup}>
                 <label>Título</label>
@@ -219,6 +226,28 @@ export default function AdminPage() {
               <div style={inputGroup}>
                 <label>Data</label>
                 <input name="date" type="date" required className="glass" style={inputStyle} />
+              </div>
+              <div style={inputGroup}>
+                <label>Arquivo (Imagem/PDF)</label>
+                <input 
+                  type="file" 
+                  accept="image/*,application/pdf" 
+                  className="glass" 
+                  style={inputStyle} 
+                  onChange={async (e) => {
+                    const file = e.target.files?.[0]
+                    if (file) {
+                      const reader = new FileReader()
+                      reader.onloadend = () => {
+                        const hiddenInput = e.target.parentElement?.querySelector('input[name="fileData"]') as HTMLInputElement
+                        if (hiddenInput) hiddenInput.value = reader.result as string
+                      }
+                      reader.readAsDataURL(file)
+                    }
+                  }}
+                />
+                <input type="hidden" name="fileData" />
+                <small style={{ color: 'hsl(var(--muted-foreground))' }}>Limite: 4MB.</small>
               </div>
               <button type="submit" className="glass" style={buttonStyle}>Adicionar Certificado</button>
             </form>

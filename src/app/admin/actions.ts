@@ -91,6 +91,7 @@ export async function addCertificate(data: any) {
       issuer: data.issuer,
       date: new Date(data.date),
       link: data.link,
+      fileData: data.fileData,
     },
   })
   revalidatePath('/')
